@@ -25,6 +25,9 @@ public class CameraFX : Singleton<CameraFX> {
 	private Color blueColor = Color.blue;
 	private Color whiteColor = Color.white;
 
+	public Sprite whiteNoise;
+	public Sprite defaultSprite;
+
 
 	// Use this for initialization
 	void Start () {
@@ -33,14 +36,17 @@ public class CameraFX : Singleton<CameraFX> {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKey(KeyCode.Q))FadeIn(whiteColor, 1f);
-		if(Input.GetKey(KeyCode.W))FadeOut(1f);
+		if(Input.GetKey(KeyCode.O))FadeIn(whiteColor, 1f);
+		if(Input.GetKey(KeyCode.P))FadeOut(1f);
 
-		if(Input.GetKey(KeyCode.A))FadeIn(whiteColor, .2f);
-		if(Input.GetKey(KeyCode.S))FadeOut(.2f);
+		if(Input.GetKey(KeyCode.K))FadeIn(whiteColor, .2f);
+		if(Input.GetKey(KeyCode.L))FadeOut(.2f);
 
-		if(Input.GetKey(KeyCode.Z))FadeIn(whiteColor, .05f);
-		if(Input.GetKey(KeyCode.X))FadeOut(.05f);
+		if(Input.GetKey(KeyCode.N))FadeIn(whiteColor, .05f);
+		if(Input.GetKey(KeyCode.M))FadeOut(.05f);
+
+		if (Input.GetKey (KeyCode.U))
+						WhiteNoise (2f);
 	}
 
 	public void FadeIn(Color color, float time)
@@ -57,7 +63,7 @@ public class CameraFX : Singleton<CameraFX> {
 		Color startColor = PreScreen.color;	
 		Color endColor = new Color (startColor.r, startColor.g, startColor.b, 1f);
 		yield return null;
-		
+
 		for (float t = 0f; t <= time; t += Time.deltaTime) {
 			Color temp = Color.Lerp (startColor, endColor, t/time);
 			PreScreen.color = temp;
@@ -86,5 +92,29 @@ public class CameraFX : Singleton<CameraFX> {
 		PreScreen.enabled = false;
 	}
 
+	public void WhiteNoise(float time)
+	{
+		StartCoroutine (WhiteNoiseWorker (time));
+	}
+	public IEnumerator WhiteNoiseWorker(float time)
+	{
+		PreScreen.color = new Color (PreScreen.color.r, PreScreen.color.g, PreScreen.color.b, 1f);
+		Sprite lastSprite = PreScreen.sprite;
+		PreScreen.sprite = whiteNoise;
+		PreScreen.enabled = true;
+		yield return StartCoroutine (RandomRotate (time));
+		PreScreen.enabled = false;
+		PreScreen.sprite = defaultSprite;
+		PreScreen.gameObject.transform.eulerAngles = new Vector3 (0,0,0);
+	}
+
+	public IEnumerator RandomRotate(float time)
+	{
+		Transform PSTransform = PreScreen.gameObject.transform;
+		for (int i = 0; i<12; i++) {
+			PSTransform.eulerAngles = new Vector3 (0,0 , Random.Range (0f, 180f));
+			yield return new WaitForSeconds (time/12f);	
+		}
+	}
 
 }
