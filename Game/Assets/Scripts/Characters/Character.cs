@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterController2D))]
 public class Character : Entity
 {
 	public enum MovementState
@@ -11,6 +12,7 @@ public class Character : Entity
 		Falling
 	}
 	private MovementState _currentMovementState;
+	
 	public MovementState CurrentMovementState
 	{
 		get { return _currentMovementState; }
@@ -26,58 +28,108 @@ public class Character : Entity
 			}
 		}
 	}
-
-	public Animator animator;
-
-	public float grounderLength;
-	[Range(0.5f, 1.0f)]
-	public float midAirDamping;
-	public float jumpSpeed;
-	public float walkSpeed;
-	public float maxHorizontalSpeed;
-	public LayerMask groundLayer;
-
-	public bool isGrounded;
-
-	void Start()
+	// movement config
+	public float gravity = -25f;
+	public float runSpeed = 8f;
+	public float groundDamping = 20f; // how fast do we change direction? higher means faster
+	public float inAirDamping = 5f;
+	public float jumpHeight = 3f;
+	
+	[HideInInspector]
+	private float normalizedHorizontalSpeed = 0;
+	
+	protected CharacterController2D controller;
+	private Animator animator;
+	private RaycastHit2D lastControllerColliderHit;
+	private Vector3 velocity;
+	private float horizontal;
+	private float vertical;
+	
+	void Awake()
 	{
-
+		animator = GetComponent<Animator>();
+		controller = GetComponent<CharacterController2D>();
+		
+		// listen to some events for illustration purposes
+		controller.onControllerCollidedEvent += onControllerCollider;
+		controller.onTriggerEnterEvent += onTriggerEnterEvent;
+		controller.onTriggerExitEvent += onTriggerExitEvent;
 	}
-
-	/// <summary>
-	/// Updates the state of the movement.
-	/// </summary>
+	
+	
+	#region Event Listeners
+	
+	void onControllerCollider( RaycastHit2D hit )
+	{
+		// bail out on plain old ground hits cause they arent very interesting
+		if( hit.normal.y == 1f )
+			return;
+		
+		// logs any collider hits if uncommented. it gets noisy so it is commented out for the demo
+		//Debug.Log( "flags: " + _controller.collisionState + ", hit.normal: " + hit.normal );
+	}
+	
+	
+	void onTriggerEnterEvent( Collider2D col )
+	{
+		Debug.Log( "onTriggerEnterEvent: " + col.gameObject.name );
+	}
+	
+	
+	void onTriggerExitEvent( Collider2D col )
+	{
+		Debug.Log( "onTriggerExitEvent: " + col.gameObject.name );
+	}
+	
+	#endregion
+	
 	public virtual void UpdateMovementState()
 	{
-
+	
 	}
-
-	/// <summary>
-	/// Checks if the character is grounded.
-	/// </summary>
-	void CheckGrounded()
-	{
-		RaycastHit2D rayHit = Physics2D.Raycast(rigidbody2D.position, -Vector2.up, grounderLength, groundLayer);
-		if(rayHit != null)
-		{
-			isGrounded = true;
-		}
-		else isGrounded = false;
-	}
-
+	
+	// the Update loop contains a very simple example of moving the character around and controlling the animation
 	void Update()
 	{
-		CheckGrounded();
-		UpdateMovementState();
+		// grab our current _velocity to use as a base for all calculations
+		velocity = controller.velocity;
 		
-		if(Mathf.Abs(rigidbody2D.velocity.x) > maxHorizontalSpeed)
+		if( controller.isGrounded )
+			velocity.y = 0;
+		
+		if( Input.GetKey( KeyCode.RightArrow ) )
 		{
-			if(CurrentMovementState == MovementState.Falling || CurrentMovementState == MovementState.Jumping)
-				rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxHorizontalSpeed * midAirDamping, rigidbody2D.velocity.y);
-			else
-				rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxHorizontalSpeed, rigidbody2D.velocity.y);
+			if( transform.localScale.x < 0f )
+				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 		}
+		else if( Input.GetKey( KeyCode.LeftArrow ) )
+		{
+			if( transform.localScale.x > 0f )
+				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
+		}
+		else
+		{
+			normalizedHorizontalSpeed = 0;
+		}
+		
+		
+		// we can only jump whilst grounded
+		/*if( controller.isGrounded && Input.GetKeyDown( KeyCode.UpArrow ) )
+		{
+			velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
+		}*/
+		
+		
+		// apply horizontal speed smoothing it
+		var smoothedMovementFactor = controller.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
+		velocity.x = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor );
+		
+		// apply gravity before moving
+		velocity.y += gravity * Time.deltaTime;
+		
+		controller.move( velocity * Time.deltaTime );
 	}
+	
 
 	/// <summary>
 	/// Walk function that is in charge of making the character move.
@@ -86,7 +138,11 @@ public class Character : Entity
 	/// <param name="vertical">Vertical.</param>
 	public virtual void Walk(float horizontal, float vertical = 0f)
 	{
-
+		if(Mathf.Approximately(horizontal, 0))
+			normalizedHorizontalSpeed = 0;
+		else
+			normalizedHorizontalSpeed = Mathf.Sign(horizontal);
+		
 	}
 
 	/// <summary>
@@ -94,12 +150,8 @@ public class Character : Entity
 	/// </summary>
 	public virtual void Jump()
 	{
-
-	}
-
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawRay(rigidbody2D.position, -Vector3.up * grounderLength);
+		//velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
+		float horizontalMovement = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime);
+		controller.move((Vector3.right * horizontalMovement + Vector3.up * Mathf.Sqrt( 2f * jumpHeight * -gravity)) * Time.deltaTime);
 	}
 }
