@@ -26,10 +26,6 @@ public class Player : Character
 			rigidbody2D.AddForce(Vector2.right * horizontal * walkSpeed * midAirDamping);
 		else 
 			rigidbody2D.AddForce(Vector2.right * horizontal * walkSpeed);
-
-		if(Mathf.Abs(rigidbody2D.velocity.x) > maxHorizontalSpeed)
-			rigidbody2D.velocity = 
-				new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxHorizontalSpeed, rigidbody2D.velocity.y);
 	}
 
 	public override void Jump()

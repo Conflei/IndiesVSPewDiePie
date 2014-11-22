@@ -10,34 +10,39 @@ public class BaseInput : MonoBehaviour
 		InputPicker();
 	}
 
+	/// <summary>
+	/// Picks the input function that can be called based on the targetCharacter current movement state.
+	/// </summary>
 	public virtual void InputPicker()
 	{
 		if(targetCharacter != null)
 		{		
-			switch(targetCharacter.CurrentMovementState)
-		    {
-		    case Character.MovementState.Idle:
-		    case Character.MovementState.Walking:
-		    case Character.MovementState.Falling:
-		        WalkInput();
-		        break;
-		    case Character.MovementState.Jumping:
-		        JumpInput();
-		        break;
-		    }
+			WalkInput();
+			if(targetCharacter.CurrentMovementState == Character.MovementState.Idle ||
+			   targetCharacter.CurrentMovementState == Character.MovementState.Walking)
+				JumpInput();
 		}
 	}
 
+	/// <summary>
+	/// Handle walking input
+	/// </summary>
 	public virtual void WalkInput()
 	{
 
 	}
 
+	/// <summary>
+	/// Handle jumping input
+	/// </summary>
 	public virtual void JumpInput()
 	{
 
 	}
 
+	/// <summary>
+	/// Handle action input
+	/// </summary>
 	public virtual void ActionInput()
 	{
 

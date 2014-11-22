@@ -44,11 +44,17 @@ public class Character : Entity
 
 	}
 
+	/// <summary>
+	/// Updates the state of the movement.
+	/// </summary>
 	public virtual void UpdateMovementState()
 	{
 
 	}
 
+	/// <summary>
+	/// Checks if the character is grounded.
+	/// </summary>
 	void CheckGrounded()
 	{
 		RaycastHit2D rayHit = Physics2D.Raycast(rigidbody2D.position, -Vector2.up, grounderLength, groundLayer);
@@ -63,13 +69,29 @@ public class Character : Entity
 	{
 		CheckGrounded();
 		UpdateMovementState();
+		
+		if(Mathf.Abs(rigidbody2D.velocity.x) > maxHorizontalSpeed)
+		{
+			if(CurrentMovementState == MovementState.Falling || CurrentMovementState == MovementState.Jumping)
+				rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxHorizontalSpeed * midAirDamping, rigidbody2D.velocity.y);
+			else
+				rigidbody2D.velocity = new Vector2(Mathf.Sign(rigidbody2D.velocity.x) * maxHorizontalSpeed, rigidbody2D.velocity.y);
+		}
 	}
 
+	/// <summary>
+	/// Walk function that is in charge of making the character move.
+	/// </summary>
+	/// <param name="horizontal">Horizontal.</param>
+	/// <param name="vertical">Vertical.</param>
 	public virtual void Walk(float horizontal, float vertical = 0f)
 	{
 
 	}
 
+	/// <summary>
+	/// Jump function.
+	/// </summary>
 	public virtual void Jump()
 	{
 
