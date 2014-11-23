@@ -10,15 +10,7 @@ public class PlayerInput : BaseInput
 	public override void InputPicker ()
 	{
 		base.InputPicker ();
-		if(MouseMovedLeft())
-		{
-			arm.RotateLeft();
-		}
-		else if(MouseMovedRight())
-		{
-			arm.RotateRight();
-		}
-		else if(Input.GetMouseButton(0))
+		if(Input.GetMouseButton(0))
 		{
 			stick.Enlarge();
 		}

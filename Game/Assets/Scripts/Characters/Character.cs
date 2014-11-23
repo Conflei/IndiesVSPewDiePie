@@ -145,7 +145,6 @@ public class Character : Entity
 			normalizedHorizontalSpeed = 0;
 		else
 			normalizedHorizontalSpeed = Mathf.Sign(horizontal);
-		
 	}
 
 	/// <summary>
