@@ -19,7 +19,7 @@ public class INOUT : MonoBehaviour {
 		/// <summary>
 		/// The movements.
 		/// </summary>
-		Hashtable movements = iTween.Hash("z",20.0f,"looptype",iTween.LoopType.pingPong,"time",.45f);
+		Hashtable movements = iTween.Hash("z",20.0f,"looptype",iTween.LoopType.pingPong,"time",65f);
 		/// <summary>
 		/// The movements2.
 		/// </summary>

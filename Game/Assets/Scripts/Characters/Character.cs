@@ -182,6 +182,7 @@ public class Character : Entity
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
 		print ("asd");
 		GameController.Sounds.PlayDeath ();
+		GameState.points+=1;
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}
