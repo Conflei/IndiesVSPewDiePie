@@ -25,7 +25,7 @@ public class CameraFX : Singleton<CameraFX> {
 	public SpriteRenderer PreScreen;
 
 	private Color blueColor = Color.blue;
-	private Color whiteColor = Color.white;
+	public Color whiteColor = Color.white;
 
 	public Sprite whiteNoise;
 	public float whiteNoiseTime = 1f;
