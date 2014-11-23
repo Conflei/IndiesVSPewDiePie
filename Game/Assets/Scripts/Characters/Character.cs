@@ -179,6 +179,7 @@ public class Character : Entity
 	{
 		print ("asd");
 		GameController.Sounds.PlayDeath ();
+		GameState.points+=1;
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}
