@@ -3,7 +3,6 @@ using System.Collections;
 
 public class StickHandler : MonoBehaviour 
 {
-
 	private float _stickLength;
 	public float StickLength
 	{
@@ -14,7 +13,7 @@ public class StickHandler : MonoBehaviour
 			transform.localScale = new Vector3(_stickLength, transform.localScale.y);
 		}
 	}
-	[Range(2f,3f)]
+	[Range(5f,20f)]
 	public float stickMaxLength = 2f;
 	[Range(0.5f,0.7f)]
 	public float stickMinLength = 0.5f;
@@ -26,7 +25,7 @@ public class StickHandler : MonoBehaviour
 	
 	public void Enlarge()
 	{
-		float step = Mathf.Abs(stickMinLength - stickMaxLength)/2f;
+		float step = Mathf.Abs(stickMinLength - stickMaxLength) * 5f;
 		StickLength += step * Time.deltaTime;
 		if(StickLength > stickMaxLength)
 			StickLength = stickMaxLength;

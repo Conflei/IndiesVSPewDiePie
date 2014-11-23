@@ -3,9 +3,8 @@ using System.Collections;
 
 public class ArmRotator : MonoBehaviour 
 {
-	public float rotationSpeed = 500;
+	public float rotationSpeed;
 	public Character character;
-	public HingeJoint2D joint;
 	
 	private float newRotation;
 	// Use this for initialization
@@ -16,20 +15,21 @@ public class ArmRotator : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		JointMotor2D aux = joint.motor;
 		//transform.position = joint.connectedBody.transform.position;
-		aux.motorSpeed = newRotation;
-		joint.motor = aux;
+		if(character.transform.localScale.x < 1 && character.FacingRight)
+			transform.Rotate(Vector3.forward, (newRotation + 180) * Time.deltaTime);
+		else
+			transform.Rotate(Vector3.forward, newRotation * Time.deltaTime);
 		newRotation = 0.0f;
 	}
 	
 	public void RotateRight()
 	{
-		newRotation = rotationSpeed;
+		newRotation = -rotationSpeed;
 	}
 	
 	public void RotateLeft()
 	{
-		newRotation = -rotationSpeed;
+		newRotation = rotationSpeed;
 	}
 }

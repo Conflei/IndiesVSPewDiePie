@@ -161,4 +161,9 @@ public class Character : Entity
 		float horizontalMovement = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime);
 		controller.move((Vector3.right * horizontalMovement + Vector3.up * Mathf.Sqrt( 2f * jumpHeight * -gravity)) * Time.deltaTime);
 	}
+	
+	public virtual void Kill()
+	{
+	
+	}
 }
