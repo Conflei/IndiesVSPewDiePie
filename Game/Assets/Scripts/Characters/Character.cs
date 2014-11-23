@@ -104,19 +104,15 @@ public class Character : Entity
 		if( controller.isGrounded )
 			velocity.y = 0;
 		
-		if( Input.GetKey( KeyCode.RightArrow ) )
+		if( normalizedHorizontalSpeed == 1 )
 		{
 			if( transform.localScale.x < 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 		}
-		else if( Input.GetKey( KeyCode.LeftArrow ) )
+		else if( normalizedHorizontalSpeed == -1 )
 		{
 			if( transform.localScale.x > 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
-		}
-		else
-		{
-			normalizedHorizontalSpeed = 0;
 		}
 		
 		
