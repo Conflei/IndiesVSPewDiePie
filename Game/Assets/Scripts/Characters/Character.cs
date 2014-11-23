@@ -155,6 +155,7 @@ public class Character : Entity
 		//velocity.y = Mathf.Sqrt( 2f * jumpHeight * -gravity );
 		float horizontalMovement = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime);
 		controller.move((Vector3.right * horizontalMovement + Vector3.up * Mathf.Sqrt( 2f * jumpHeight * -gravity)) * Time.deltaTime);
+		CurrentMovementState = MovementState.Jumping;
 	}
 	
 	public virtual void Kill()
