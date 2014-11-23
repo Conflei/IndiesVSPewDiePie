@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: f31ec590f22df524e97e5d2f9139ec46
+guid: 540553a110fb1044b87e26c2d311f009
 TextureImporter:
   fileIDToRecycleName:
-    21300000: button_down
+    21300000: atlas0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -18,29 +18,29 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 4096
+  maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 1
+    aniso: 1
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 4
+  alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
-  textureType: 5
+  alphaIsTransparency: 0
+  textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites: []

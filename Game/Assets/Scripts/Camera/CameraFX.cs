@@ -32,6 +32,7 @@ public class CameraFX : Singleton<CameraFX> {
 	public Sprite defaultSprite;
 
 	public float zoomSpeed = 1f;
+	private tk2dCamera CameraScript;
 
 	private bool shaking = false;
 	private Vector3 originalPosition;
@@ -45,11 +46,19 @@ public class CameraFX : Singleton<CameraFX> {
 	private bool onGray;
 	private float grayTimer;
 
+	public GameObject Stick;
+	private float stickOriginalSize;
+	private float lastStickSize;
+	private float originalZoomFactor;
+
 	// Use this for initialization
 	void Start () {
 		grayTimer = 0;
 		onGray = false;
 		Grayscale = this.GetComponent<GrayscaleEffect>();
+		CameraScript = this.GetComponent<tk2dCamera>();
+		stickOriginalSize = lastStickSize = Stick.transform.localScale.x;
+		originalZoomFactor = CameraScript.ZoomFactor;
 	}
 	
 	// Update is called once per frame
@@ -61,9 +70,9 @@ public class CameraFX : Singleton<CameraFX> {
 								FadeOut (1f);
 
 						if (Input.GetKey (KeyCode.K))
-								Camera.main.orthographicSize += Time.deltaTime * zoomSpeed;
+								CameraScript.ZoomFactor += Time.deltaTime * zoomSpeed;
 						if (Input.GetKey (KeyCode.L))
-								Camera.main.orthographicSize -= Time.deltaTime * zoomSpeed;
+								CameraScript.ZoomFactor -= Time.deltaTime * zoomSpeed;
 
 						if (Input.GetKey (KeyCode.M))
 								StartCoroutine(Flash());
@@ -87,8 +96,17 @@ public class CameraFX : Singleton<CameraFX> {
 					ShakeRange = new Vector3(ShakeRange.x*-1, ShakeRange.y);
 				}
 			}
+
+			if(lastStickSize != Stick.transform.localScale.x){
+				lastStickSize = Stick.transform.localScale.x;
+				CalculateZoom();
+			}
 		}
 		if(grayTimer >= 0f) grayTimer -= Time.deltaTime;
+	}
+
+	public void CalculateZoom(){
+		//CameraScript.ZoomFactor = (stickOriginalSize * originalZoomFactor) / lastStickSize; 
 	}
 
 	public void FadeIn(Color color, float time)
