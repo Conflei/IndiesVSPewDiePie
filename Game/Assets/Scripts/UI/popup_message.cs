@@ -66,6 +66,7 @@ public class popup_message : MonoBehaviour {
 		public struct Atribs
 		{
 				public bool isActive;
+				public string Text_Content;
 				public int LetterSize;
 				public float scale_factor;
 				public float rotate_factor;
@@ -131,6 +132,7 @@ public class popup_message : MonoBehaviour {
 								ActiveTextsAtribs [i].rotate_factor = 0;
 								ActiveTextsAtribs [i].scale_factor = 0;
 								something [i].gameObject.SetActive (ActiveTextsAtribs [i].isActive);
+								something [i].text = ActiveTextsAtribs[i].Text_Content;
 						}
 				} else 
 				{
@@ -139,6 +141,7 @@ public class popup_message : MonoBehaviour {
 								ActiveTextsAtribs [i].rotate_factor = 0;
 								ActiveTextsAtribs [i].scale_factor = 0;
 								something [i].gameObject.SetActive (ActiveTextsAtribs [i].isActive);
+								something [i].text = ActiveTextsAtribs[i].Text_Content;
 						}
 				}
 		}	 
@@ -151,6 +154,7 @@ public class popup_message : MonoBehaviour {
 				for (int i = 0; i < 9; i++) {
 						something [i].gameObject.SetActive (ActiveTextsAtribs [i].isActive);
 						something[i].fontSize = ActiveTextsAtribs [i].LetterSize;
+						something [i].text = ActiveTextsAtribs[i].Text_Content;
 				}
 		}
 	
