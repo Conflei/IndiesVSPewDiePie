@@ -15,21 +15,23 @@ public class ArmRotator : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		//transform.position = joint.connectedBody.transform.position;
-		if(character.transform.localScale.x < 1 && character.FacingRight)
-			transform.Rotate(Vector3.forward, (newRotation + 180) * Time.deltaTime);
-		else
-			transform.Rotate(Vector3.forward, newRotation * Time.deltaTime);
-		newRotation = 0.0f;
+//		if(!character.FacingRight)
+//			newRotation *= -1;
+//		transform.Rotate(Vector3.forward, newRotation * Time.deltaTime);
+//		newRotation = 0.0f;
+		Vector3 lookAtVector = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+		lookAtVector.z = 0f;
+		float angle = Mathf.Atan2(lookAtVector.y, lookAtVector.x) * Mathf.Rad2Deg;
+		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 	}
 	
 	public void RotateRight()
 	{
-		newRotation = -rotationSpeed;
+		//newRotation = -rotationSpeed;
 	}
 	
 	public void RotateLeft()
 	{
-		newRotation = rotationSpeed;
+		//newRotation = rotationSpeed;
 	}
 }

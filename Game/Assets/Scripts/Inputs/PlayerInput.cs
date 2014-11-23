@@ -22,10 +22,6 @@ public class PlayerInput : BaseInput
 		{
 			stick.Enlarge();
 		}
-		else if(Input.GetMouseButton(1))
-		{
-			stick.Shorten();
-		}
 		previousMousePosition = Input.mousePosition;
 	}
 
