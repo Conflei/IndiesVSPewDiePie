@@ -43,6 +43,7 @@ public class Character : Entity
 	
 	public bool invertOrientation;
 	protected CharacterController2D controller;
+    public bool Dead = false;
 	public bool FacingRight
 	{
 		get
@@ -177,11 +178,10 @@ public class Character : Entity
 	
 	public virtual void Kill()
 	{
-<<<<<<< HEAD
+        Dead = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
 		print ("asd");
 		GameController.Sounds.PlayDeath ();
-=======
->>>>>>> 43c0473e957767ff7199ed867f3484d0a2c463d4
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}
