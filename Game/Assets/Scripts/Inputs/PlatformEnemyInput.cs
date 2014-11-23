@@ -11,7 +11,7 @@ public class PlatformEnemyInput : BaseInput
 	
 	void Start()
 	{
-		player = GameObject.FindWithTag("Player").transform;
+		player = GameObject.Find("Player").transform;
 	}
 	
 	public override void InputPicker ()
