@@ -18,11 +18,11 @@ public class PlayerInput : BaseInput
 		{
 			arm.RotateRight();
 		}
-		else if(Input.GetKey(KeyCode.R))
+		else if(Input.GetMouseButton(0))
 		{
 			stick.Enlarge();
 		}
-		else if(Input.GetKey(KeyCode.F))
+		else if(Input.GetMouseButton(1))
 		{
 			stick.Shorten();
 		}
