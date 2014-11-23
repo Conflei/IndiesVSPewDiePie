@@ -39,12 +39,4 @@ public class BaseInput : MonoBehaviour
 	{
 
 	}
-
-	/// <summary>
-	/// Handle action input
-	/// </summary>
-	public virtual void ActionInput()
-	{
-
-	}
 }
