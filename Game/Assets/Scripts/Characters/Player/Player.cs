@@ -9,7 +9,7 @@ public class Player : Character
 	{
 		if(controller.isGrounded)
 		{
-			if(Mathf.Approximately(controller.velocity.x,0f))
+			if(Mathf.Abs(controller.velocity.x) <= 0.1f)
 				CurrentMovementState = MovementState.Idle;
 			else
 				CurrentMovementState = MovementState.Walking;

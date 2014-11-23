@@ -27,6 +27,8 @@ public class StickHandler : MonoBehaviour
 	
 	IEnumerator EnlargeRoutine()
 	{
+		GameController.FX.CameraShake ();
+		GameController.Sounds.PlayEnlarge ();
 		onCooldown = true;
 		float step = Mathf.Abs(stickMinLength - stickMaxLength) * 5f;
 		while(StickLength < stickMaxLength)
@@ -61,5 +63,11 @@ public class StickHandler : MonoBehaviour
 		StickLength -= step * Time.deltaTime;
 		if(StickLength < stickMinLength)
 			StickLength = stickMinLength;
+		StartCoroutine (PlayShorten ());
+	}
+
+	public IEnumerator PlayShorten(){
+		yield return new WaitForSeconds (.5f);
+		GameController.Sounds.PlayShorten ();
 	}
 }

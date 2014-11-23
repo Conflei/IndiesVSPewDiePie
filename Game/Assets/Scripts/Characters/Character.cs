@@ -172,10 +172,16 @@ public class Character : Entity
 		float horizontalMovement = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime);
 		controller.move((Vector3.right * horizontalMovement + Vector3.up * Mathf.Sqrt( 2f * jumpHeight * -gravity)) * Time.deltaTime);
 		CurrentMovementState = MovementState.Jumping;
+		GameController.Sounds.PlayJump ();
 	}
 	
 	public virtual void Kill()
 	{
+<<<<<<< HEAD
+		print ("asd");
+		GameController.Sounds.PlayDeath ();
+=======
+>>>>>>> 43c0473e957767ff7199ed867f3484d0a2c463d4
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}
