@@ -13,6 +13,7 @@ public class Character : Entity
 	}
 	protected MovementState _currentMovementState;
 	
+	#pragma warning disable
 	public MovementState CurrentMovementState
 	{
 		get { return _currentMovementState; }
@@ -21,6 +22,7 @@ public class Character : Entity
 			_currentMovementState = value;
 			if(animator != null)
 			{
+				
 				animator.SetBool("Idle", _currentMovementState == MovementState.Idle);
 				animator.SetBool("Walking", _currentMovementState == MovementState.Walking);
 				animator.SetBool("Jumping", _currentMovementState == MovementState.Jumping);
@@ -28,6 +30,7 @@ public class Character : Entity
 			}
 		}
 	}
+	#pragma warning restore
 	// movement config
 	public float gravity = -25f;
 	public float runSpeed = 8f;
@@ -38,12 +41,13 @@ public class Character : Entity
 	[HideInInspector]
 	private float normalizedHorizontalSpeed = 0;
 	
+	public bool invertOrientation;
 	protected CharacterController2D controller;
 	public bool FacingRight
 	{
 		get
 		{
-			return Mathf.Sign(transform.localScale.x) == 1;
+			return Mathf.Sign(transform.localScale.x) == (invertOrientation ? -1 : 1);
 		}
 	}
 	private Animator animator;
@@ -56,6 +60,7 @@ public class Character : Entity
 	{
 		controller = GetComponent<CharacterController2D>();
 		animator = GetComponent<Animator>();
+		animator.logWarnings = false;
 		// listen to some events for illustration purposes
 		controller.onControllerCollidedEvent += onControllerCollider;
 		controller.onTriggerEnterEvent += onTriggerEnterEvent;
@@ -114,12 +119,12 @@ public class Character : Entity
 		if( controller.isGrounded )
 			velocity.y = 0;
 		
-		if( normalizedHorizontalSpeed == 1 )
+		if( normalizedHorizontalSpeed == (invertOrientation ? -1 : 1) )
 		{
 			if( transform.localScale.x < 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );
 		}
-		else if( normalizedHorizontalSpeed == -1 )
+		else if( normalizedHorizontalSpeed == (invertOrientation ? 1 : -1) )
 		{
 			if( transform.localScale.x > 0f )
 				transform.localScale = new Vector3( -transform.localScale.x, transform.localScale.y, transform.localScale.z );

@@ -17,7 +17,7 @@ public class PlatformEnemyInput : BaseInput
 	public override void InputPicker ()
 	{
 		WalkInput();
-		RaycastHit2D hit = Physics2D.Raycast(new Vector3(transform.position.x - horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y), -Vector2.up, 1f, platformLayer);
+		RaycastHit2D hit = Physics2D.Raycast(new Vector3(transform.position.x + horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y), -Vector2.up, 1f, platformLayer);
 		float distanceToPlayer = (transform.position - player.position).magnitude;
 
 		if(hit.transform == null || distanceToPlayer  <= jumpToPlayerDistance)
@@ -42,7 +42,7 @@ public class PlatformEnemyInput : BaseInput
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawLine(new Vector3(transform.position.x - horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y), 
-		                new Vector3(transform.position.x - horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y-1));
+		Gizmos.DrawLine(new Vector3(transform.position.x + horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y), 
+		                new Vector3(transform.position.x + horizontalDetectorOffset * Mathf.Sign(transform.localScale.x), transform.localPosition.y-1));
 	}	
 }
