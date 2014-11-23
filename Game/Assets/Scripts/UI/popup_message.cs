@@ -61,10 +61,19 @@ public class popup_message : MonoBehaviour {
 		/// The interval.
 		/// </summary>
 		public float interval;
-	
+
+		/// <summary>
+		/// The default font.
+		/// </summary>
+		public Font DefaultFont;	
+
+		/// <summary>
+		/// Atributos de cada texto por separador.
+		/// </summary>
 		[System.Serializable]
 		public struct Atribs
 		{
+				public Font DefaultFont;
 				public bool isActive;
 				public string Text_Content;
 				public int LetterSize;
@@ -137,11 +146,12 @@ public class popup_message : MonoBehaviour {
 				} else 
 				{
 						for (int i = 0; i < 9; i++) {
+								ActiveTextsAtribs[i].DefaultFont = DefaultFont;
 								ActiveTextsAtribs [i].LetterSize = LetterSize;
-								ActiveTextsAtribs [i].rotate_factor = 0;
-								ActiveTextsAtribs [i].scale_factor = 0;
 								something [i].gameObject.SetActive (ActiveTextsAtribs [i].isActive);
 								something [i].text = ActiveTextsAtribs[i].Text_Content;
+								something [i].font = ActiveTextsAtribs[i].DefaultFont;
+								something[i].rectTransform.Rotate(0,0,ActiveTextsAtribs[i].rotate_factor,Space.World);
 						}
 				}
 		}	 
@@ -154,7 +164,8 @@ public class popup_message : MonoBehaviour {
 				for (int i = 0; i < 9; i++) {
 						something [i].gameObject.SetActive (ActiveTextsAtribs [i].isActive);
 						something[i].fontSize = ActiveTextsAtribs [i].LetterSize;
-						something [i].text = ActiveTextsAtribs[i].Text_Content;
+						something[i].text = ActiveTextsAtribs[i].Text_Content;
+						something[i].font = ActiveTextsAtribs[i].DefaultFont;
 				}
 		}
 	
@@ -194,6 +205,7 @@ public class popup_message : MonoBehaviour {
 
 		public void ActiveAnimation (Text Text, Atribs atributos)
 		{
+				Debug.Log(atributos.animation);
 				switch (atributos.animation) {
 					case Animation_For_Text.IN:
 						IN(Text,atributos.scale_factor);
