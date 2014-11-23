@@ -11,7 +11,7 @@ public class Character : Entity
 		Jumping,
 		Falling
 	}
-	private MovementState _currentMovementState;
+	protected MovementState _currentMovementState;
 	
 	public MovementState CurrentMovementState
 	{
@@ -54,9 +54,8 @@ public class Character : Entity
 	
 	void Awake()
 	{
-		animator = GetComponent<Animator>();
 		controller = GetComponent<CharacterController2D>();
-		
+		animator = GetComponent<Animator>();
 		// listen to some events for illustration purposes
 		controller.onControllerCollidedEvent += onControllerCollider;
 		controller.onTriggerEnterEvent += onTriggerEnterEvent;
@@ -131,6 +130,7 @@ public class Character : Entity
 		velocity.y += gravity * Time.deltaTime;
 		
 		controller.move( velocity * Time.deltaTime );
+		UpdateMovementState();
 	}
 	
 
