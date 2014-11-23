@@ -91,7 +91,18 @@ public class Character : Entity
 	
 	public virtual void UpdateMovementState()
 	{
-	
+		if(controller.isGrounded)
+		{
+			if(Mathf.Approximately(controller.velocity.x,0f))
+				CurrentMovementState = MovementState.Idle;
+			else
+				CurrentMovementState = MovementState.Walking;
+		}
+		else
+		{
+			if(controller.velocity.y < 0)
+				CurrentMovementState = MovementState.Falling;
+		}
 	}
 	
 	// the Update loop contains a very simple example of moving the character around and controlling the animation
@@ -160,7 +171,6 @@ public class Character : Entity
 	
 	public virtual void Kill()
 	{
-		print ("asd");
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}
