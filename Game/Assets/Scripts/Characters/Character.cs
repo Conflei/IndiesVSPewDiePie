@@ -159,6 +159,7 @@ public class Character : Entity
 	
 	public virtual void Kill()
 	{
+		print ("asd");
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
 	}

@@ -17,7 +17,7 @@ public class ArmRotator : MonoBehaviour
 	{
 		Vector3 lookAtVector = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 		lookAtVector.z = 0f;
-		float angle = Mathf.Atan2(lookAtVector.y, lookAtVector.x) * Mathf.Rad2Deg;
+		float angle = Mathf.Atan2(lookAtVector.y, lookAtVector.x  * (character.FacingRight ? 1 : -1)) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 	}
 	
