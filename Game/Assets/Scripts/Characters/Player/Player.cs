@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Player : Character
 {
+
 	public override void UpdateMovementState()
 	{
 		if(controller.isGrounded)

@@ -39,6 +39,13 @@ public class Character : Entity
 	private float normalizedHorizontalSpeed = 0;
 	
 	protected CharacterController2D controller;
+	public bool FacingRight
+	{
+		get
+		{
+			return Mathf.Sign(transform.localScale.x) == 1;
+		}
+	}
 	private Animator animator;
 	private RaycastHit2D lastControllerColliderHit;
 	private Vector3 velocity;
