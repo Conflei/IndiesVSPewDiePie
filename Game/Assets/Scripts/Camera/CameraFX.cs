@@ -28,6 +28,7 @@ public class CameraFX : Singleton<CameraFX> {
 	private Color whiteColor = Color.white;
 
 	public Sprite whiteNoise;
+	public float whiteNoiseTime = 1f;
 	public Sprite defaultSprite;
 
 	public float zoomSpeed = 1f;
@@ -35,15 +36,20 @@ public class CameraFX : Singleton<CameraFX> {
 	private bool shaking = false;
 	private Vector3 originalPosition;
 
-	private Vector3 ShakeRange = new Vector3(1,1,1);
+	private Vector3 ShakeRange = new Vector3(0.3f,0.3f,0.3f);
 	private float ShakeTimer = 0f;
-	private const float ShakeTime = 0.75f;
+	public float ShakeTime = 0.75f;
 	private float ShakeSpeed = 50f;
 
+	private GrayscaleEffect Grayscale;
+	private bool onGray;
+	private float grayTimer;
 
 	// Use this for initialization
 	void Start () {
-	
+		grayTimer = 0;
+		onGray = false;
+		Grayscale = this.GetComponent<GrayscaleEffect>();
 	}
 	
 	// Update is called once per frame
@@ -59,16 +65,16 @@ public class CameraFX : Singleton<CameraFX> {
 						if (Input.GetKey (KeyCode.L))
 								Camera.main.orthographicSize -= Time.deltaTime * zoomSpeed;
 
-						if (Input.GetKey (KeyCode.N))
-								FadeIn (whiteColor, .05f);
 						if (Input.GetKey (KeyCode.M))
-								FadeOut (.05f);
+								StartCoroutine(Flash());
 
 						if (Input.GetKey (KeyCode.U))
-								WhiteNoise (2f);
+								WhiteNoise (whiteNoiseTime);
 
 						if(Input.GetKey(KeyCode.C)) CameraShake();
 
+						if(Input.GetKey(KeyCode.G)) ToGray();
+			
 			if(shaking){
 				if(ShakeTimer > ShakeTime*Time.timeScale){
 					shaking = false;
@@ -82,6 +88,7 @@ public class CameraFX : Singleton<CameraFX> {
 				}
 			}
 		}
+		if(grayTimer >= 0f) grayTimer -= Time.deltaTime;
 	}
 
 	public void FadeIn(Color color, float time)
@@ -158,6 +165,17 @@ public class CameraFX : Singleton<CameraFX> {
 		originalPosition = Camera.main.transform.position;
 	}
 
+	public IEnumerator Flash(){
+		yield return StartCoroutine (FadeInWorker (whiteColor, 0.15f));
+		yield return new WaitForSeconds (0.5f);
+		yield return StartCoroutine (FadeOutWorker (1f));
+	}
 
-
+	public void ToGray(){
+		if (grayTimer <= 0f) {
+						onGray = !onGray;
+						Grayscale.enabled = onGray;
+						grayTimer = 0.2f;
+				}
+	}
 }
