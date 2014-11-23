@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlatformerEnemy : Character 
+public class PlatformerEnemy : Enemy
 {
 	void Start()
 	{
