@@ -15,24 +15,24 @@ public class GameState : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 		{
+				isDead = false;
 				GameTime = Time.time;
 				if (HUD_points_disp != null) {
 						HUD_points_disp.text = points.ToString ();
 				}
 				if (HUD_time_disp != null) {
-						HUD_time_disp.text = "Time: "+(GameTime).ToString()+"s";
+						HUD_time_disp.text = "Time: " + (GameTime).ToString () + "s";
+				}
 				if(HUD_Panel !=null)
-								HUD_Panel.SetActive(false);
-						if(HUD_NEW_RECORD !=null)
-								HUD_NEW_RECORD.text = "Time: 00:00:000";
+						HUD_Panel.SetActive(false);
+				if(HUD_NEW_RECORD !=null)
+						HUD_NEW_RECORD.text = "Time: 00:00:000";
+		
 		}
-	}
-	
-	/// <summary>
-	/// Updaters this instance.
-	/// </summary>
-	public void Updaters ()
-	{
+
+
+	// Update is called once per frame
+	void Update () {
 				float elapseTime = Time.time - GameTime;
 			int minutes = Mathf.FloorToInt(elapseTime/60f);
 				int secs = Mathf.FloorToInt(elapseTime%60f);
@@ -44,13 +44,6 @@ public class GameState : MonoBehaviour {
 			}else{
 				EndGame();
 			}
-	}
-
-
-	// Update is called once per frame
-	void Update () {
-		
-		Updaters();	
 
 	}
 
@@ -61,23 +54,12 @@ public class GameState : MonoBehaviour {
 	{
 		HUD_NEW_RECORD.text = HUD_time_disp.text;
 		HUD_Panel.SetActive(true);
+		if(Input.GetMouseButtonDown(0))
+			Application.LoadLevel("Felix_Scene");
 	}
 
 	/// <summary>
 	/// Games the state retry.
 	/// </summary>
-	public void GameStateRetry()
-	{
-		HUD_Panel.SetActive(false);
-		HUD_points_disp.text = "0";
-		HUD_time_disp.text = "Time: 0:00:000";
-		isDead = false;
-		Application.LoadLevel("Felix_Scene");
-		
-	}	
-
-		public void GameStateMainMenu ()
-	{
-		Application.LoadLevel("Main Menu");
-	}
+	
 }

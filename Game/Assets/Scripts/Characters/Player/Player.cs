@@ -20,4 +20,12 @@ public class Player : Character
 				CurrentMovementState = MovementState.Falling;
 		}
 	}
+	public override void Kill ()
+	{
+				if (Dead) return;
+				Dead = true;
+		GameController.FX.ToGray();
+				GameState.isDead = true;
+				gameObject.GetComponent<PlayerInput>().enabled = false;
+	}
 }

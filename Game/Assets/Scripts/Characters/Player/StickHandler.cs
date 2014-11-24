@@ -37,7 +37,7 @@ public class StickHandler : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 		
-		step = Mathf.Abs(stickMinLength - stickMaxLength)/2f;
+		step = Mathf.Abs(stickMinLength - stickMaxLength)*3f;
 		while(StickLength > stickMinLength)
 		{
 			StickLength -= step * Time.deltaTime;
@@ -59,7 +59,7 @@ public class StickHandler : MonoBehaviour
 	
 	public void Shorten()
 	{
-		float step = Mathf.Abs(stickMinLength - stickMaxLength)/2f;
+		float step = Mathf.Abs(stickMinLength - stickMaxLength)* 3f;
 		StickLength -= step * Time.deltaTime;
 		if(StickLength < stickMinLength)
 			StickLength = stickMinLength;

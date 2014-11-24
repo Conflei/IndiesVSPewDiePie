@@ -17,4 +17,16 @@ public class UIManagerScrip : MonoBehaviour {
 	{
 				AutoFade.LoadLevel("Felix_Scene",2f,2f,Color.white);
 	}	
+
+	public void GameStateRetry()
+	{
+				
+		Application.LoadLevel("Felix_Scene");
+		
+	}	
+
+		public void GameStateMainMenu ()
+	{
+		Application.LoadLevel("Main Menu");
+	}
 }
