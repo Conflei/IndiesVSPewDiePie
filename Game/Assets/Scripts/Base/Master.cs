@@ -5,13 +5,13 @@ public class Master : MonoBehaviour {
 
 	// Use this for initialization
 	public void Awake(){
-		GameController.FX.FadeIn (GameController.FX.whiteColor, 0.01f);
+		Camera.main.GetComponent<CameraFX>().FadeIn (Camera.main.GetComponent<CameraFX>().whiteColor, 0.01f);
 	}
 
 	public IEnumerator Start () {
 
 		yield return new WaitForSeconds (1f);
-		GameController.FX.FadeOut (2f);
+		Camera.main.GetComponent<CameraFX>().FadeOut (2f);
 	}
 	
 	// Update is called once per frame

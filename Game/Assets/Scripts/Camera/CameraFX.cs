@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFX : Singleton<CameraFX> {
+public class CameraFX : MonoBehaviour {
 
 	public bool testingFX = false;
 

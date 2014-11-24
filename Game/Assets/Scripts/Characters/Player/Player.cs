@@ -24,8 +24,9 @@ public class Player : Character
 	{
 				if (Dead) return;
 				Dead = true;
-		GameController.FX.ToGray();
+		Camera.main.GetComponent<CameraFX>().ToGray();
 				GameState.isDead = true;
-				gameObject.GetComponent<PlayerInput>().enabled = false;
+                GameObject.Find("Player").GetComponent<PlayerInput>().enabled = false;
+                //Time.timeScale = 0f;
 	}
 }

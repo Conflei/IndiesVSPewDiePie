@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AudioHandler : Singleton<AudioHandler>{
+public class AudioHandler : MonoBehaviour{
 
 	public AudioClip[] audios;
 	private AudioSource source;

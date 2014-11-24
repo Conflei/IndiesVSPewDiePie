@@ -9,8 +9,9 @@ public class GameState : MonoBehaviour {
 	public Text HUD_NEW_RECORD;
 	public GameObject HUD_Panel; 
 	public static int points {get; set;}
-	public static float GameTime {get; set;}	
-	public static bool isDead{get; set;}
+	public static float GameTime {get; set;}
+    public static bool isDead = false;
+    public bool calledit = false;
 
 	// Use this for initialization
 	void Start ()
@@ -33,18 +34,17 @@ public class GameState : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-				float elapseTime = Time.time - GameTime;
-			int minutes = Mathf.FloorToInt(elapseTime/60f);
-				int secs = Mathf.FloorToInt(elapseTime%60f);
-				int fraction = Mathf.FloorToInt(elapseTime*100)%100;
-				string text = string.Format("{0:00}:{1:00}:{2:000}",minutes,secs,fraction);
-			if (!isDead) {
-					HUD_points_disp.text = points.ToString ();
-					HUD_time_disp.text = "Time: "+text+"s";
-			}else{
-				EndGame();
-			}
-
+		float elapseTime = Time.time - GameTime;
+		int minutes = Mathf.FloorToInt(elapseTime/60f);
+		int secs = Mathf.FloorToInt(elapseTime%60f);
+		int fraction = Mathf.FloorToInt(elapseTime*100)%100;
+		string text = string.Format("{0:00}:{1:00}:{2:000}",minutes,secs,fraction);
+        if (!isDead)
+        {
+            HUD_points_disp.text = points.ToString();
+            HUD_time_disp.text = "Time: " + text + "s";
+        }
+        else EndGame();
 	}
 
 	/// <summary>
@@ -52,10 +52,13 @@ public class GameState : MonoBehaviour {
 	/// </summary>
 	public void EndGame()
 	{
-		HUD_NEW_RECORD.text = HUD_time_disp.text;
-		HUD_Panel.SetActive(true);
-		if(Input.GetMouseButtonDown(0))
-			Application.LoadLevel("Felix_Scene");
+		//HUD_NEW_RECORD.text = HUD_time_disp.text;
+		//HUD_Panel.SetActive(true);
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        {
+            points = 0;
+            Application.LoadLevel("Felix_Scene");
+        }
 	}
 
 	/// <summary>

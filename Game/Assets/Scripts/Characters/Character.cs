@@ -114,6 +114,11 @@ public class Character : Entity
 	// the Update loop contains a very simple example of moving the character around and controlling the animation
 	void Update()
 	{
+        if (Dead)
+        {
+            velocity = Vector3.zero;
+            return;
+        }
 		// grab our current _velocity to use as a base for all calculations
 		velocity = controller.velocity;
 		
@@ -173,7 +178,7 @@ public class Character : Entity
 		float horizontalMovement = Mathf.Lerp( velocity.x, normalizedHorizontalSpeed * runSpeed, Time.deltaTime);
 		controller.move((Vector3.right * horizontalMovement + Vector3.up * Mathf.Sqrt( 2f * jumpHeight * -gravity)) * Time.deltaTime);
 		CurrentMovementState = MovementState.Jumping;
-		GameController.Sounds.PlayJump ();
+		Camera.main.GetComponent<AudioHandler>().PlayJump ();
 	}
 	
 	public virtual void Kill()
@@ -181,7 +186,7 @@ public class Character : Entity
         Dead = true;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
 		print ("asd");
-		GameController.Sounds.PlayDeath ();
+		Camera.main.GetComponent<AudioHandler>().PlayDeath ();
 		GameState.points+=1;
 		Camera.main.GetComponent<CameraFX>().CameraShake();
 		Destroy (gameObject);
